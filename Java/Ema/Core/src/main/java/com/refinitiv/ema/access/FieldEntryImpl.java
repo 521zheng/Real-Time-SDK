@@ -12,9 +12,7 @@ import java.nio.ByteBuffer;
 
 import com.refinitiv.ema.access.Data.DataCode;
 import com.refinitiv.ema.access.DataType.DataTypes;
-import com.refinitiv.eta.codec.Buffer;
-import com.refinitiv.eta.codec.CodecFactory;
-import com.refinitiv.eta.codec.CodecReturnCodes;
+import com.refinitiv.eta.codec.*;
 
 class FieldEntryImpl extends EntryImpl implements FieldEntry
 {
@@ -211,7 +209,29 @@ class FieldEntryImpl extends EntryImpl implements FieldEntry
 	{
 		return entryValue(fieldId, com.refinitiv.eta.codec.DataTypes.ANSI_PAGE, (DataImpl) value);
 	}
+	@Override
+	public FieldEntry intValueBlank(int fieldId){
+		entryValue(fieldId, com.refinitiv.eta.codec.DataTypes.INT);
 
+		if ( _previousEncodingType != com.refinitiv.eta.codec.DataTypes.INT )
+		{
+			GlobalPool.lock();
+			GlobalPool.returnPool(_previousEncodingType, _entryData);
+			_entryData = GlobalPool.getInt();
+			GlobalPool.unlock();
+
+			_previousEncodingType = com.refinitiv.eta.codec.DataTypes.INT;
+		}
+		int ret;
+		if (CodecReturnCodes.SUCCESS != (ret = ((com.refinitiv.eta.codec.Int)_entryData).value("")) )
+		{
+			String errText = errorString().append("Attempt to specify invalid real value. Passed ‘+0'" )
+					.toString();
+			throw ommIUExcept().message(errText, ret);
+		}
+
+		return this;
+	}
 	@Override
 	public FieldEntry intValue(int fieldId, long value)
 	{
@@ -271,7 +291,54 @@ class FieldEntryImpl extends EntryImpl implements FieldEntry
 
 		return this;
 	}
+	public FieldEntry real(int fieldId, String val){
+		entryValue(fieldId, com.refinitiv.eta.codec.DataTypes.REAL);
 
+		if ( _previousEncodingType != com.refinitiv.eta.codec.DataTypes.REAL )
+		{
+			GlobalPool.lock();
+			GlobalPool.returnPool(_previousEncodingType, _entryData);
+			_entryData = GlobalPool.getReal();
+			GlobalPool.unlock();
+
+			_previousEncodingType = com.refinitiv.eta.codec.DataTypes.REAL;
+		}
+
+		int ret;
+
+		if (CodecReturnCodes.SUCCESS != (ret = ((com.refinitiv.eta.codec.Real)_entryData).value(val)) )
+		{
+			String errText = errorString().append("Attempt to specify invalid real value. Passed " + val )
+					.toString();
+			throw ommIUExcept().message(errText, ret);
+		}
+		return this;
+	}
+	@Override
+	public FieldEntry realBlank(int fieldId) //changed by Johnson 2022-03-31
+	{
+		entryValue(fieldId, com.refinitiv.eta.codec.DataTypes.REAL);
+
+		if ( _previousEncodingType != com.refinitiv.eta.codec.DataTypes.REAL )
+		{
+			GlobalPool.lock();
+			GlobalPool.returnPool(_previousEncodingType, _entryData);
+			_entryData = GlobalPool.getReal();
+			GlobalPool.unlock();
+
+			_previousEncodingType = com.refinitiv.eta.codec.DataTypes.REAL;
+		}
+
+		int ret;
+
+		if (CodecReturnCodes.SUCCESS != (ret = ((com.refinitiv.eta.codec.Real)_entryData).value("+0")) )
+		{
+			String errText = errorString().append("Attempt to specify invalid real value. Passed ‘+0'" )
+					.toString();
+			throw ommIUExcept().message(errText, ret);
+		}
+		return this;
+	}
 	@Override
 	public FieldEntry real(int fieldId, long mantissa, int magnitudeType)
 	{
@@ -371,7 +438,30 @@ class FieldEntryImpl extends EntryImpl implements FieldEntry
 		
 		return this;
 	}
+	@Override
+	public FieldEntry date(int fieldId, String date){
 
+		Date  cacheEntryData;
+		entryValue(fieldId, com.refinitiv.eta.codec.DataTypes.DATE);
+		if ( _previousEncodingType != com.refinitiv.eta.codec.DataTypes.DATE )
+		{
+			GlobalPool.lock();
+			GlobalPool.returnPool(_previousEncodingType, _entryData);
+			cacheEntryData = GlobalPool.getDate();
+			GlobalPool.unlock();
+
+			_previousEncodingType = com.refinitiv.eta.codec.DataTypes.DATE;
+		}
+		else
+		{
+			cacheEntryData = (Date)_entryData;
+		}
+
+
+		cacheEntryData.value(date);
+		_entryData = cacheEntryData;
+		return this;
+	}
 	@Override
 	public FieldEntry date(int fieldId, int year, int month, int day)
 	{
@@ -398,6 +488,29 @@ class FieldEntryImpl extends EntryImpl implements FieldEntry
 	public FieldEntry time(int fieldId, int hour, int minute, int second, int millisecond)
 	{
 		return time(fieldId, hour, minute, second, millisecond, 0, 0);
+	}
+	public FieldEntry time(int fieldId, String time){
+		entryValue(fieldId, com.refinitiv.eta.codec.DataTypes.TIME);
+
+		Time cacheEntryData;
+
+		if ( _previousEncodingType != com.refinitiv.eta.codec.DataTypes.TIME )
+		{
+			GlobalPool.lock();
+			GlobalPool.returnPool(_previousEncodingType, _entryData);
+			cacheEntryData = GlobalPool.getTime();
+			GlobalPool.unlock();
+
+			_previousEncodingType = com.refinitiv.eta.codec.DataTypes.TIME;
+		}
+		else
+		{
+			cacheEntryData = (Time)_entryData;
+		}
+		cacheEntryData.value(time);
+		_entryData = cacheEntryData;
+		return this;
+
 	}
 
 	@Override
@@ -518,7 +631,28 @@ class FieldEntryImpl extends EntryImpl implements FieldEntry
 		
 		return this;
 	}
+	@Override
+	public FieldEntry enumBlank(int fieldId){
+		entryValue(fieldId, com.refinitiv.eta.codec.DataTypes.ENUM);
 
+		if ( _previousEncodingType != com.refinitiv.eta.codec.DataTypes.ENUM )
+		{
+			GlobalPool.lock();
+			GlobalPool.returnPool(_previousEncodingType, _entryData);
+			_entryData = GlobalPool.getEnum();
+			GlobalPool.unlock();
+
+			_previousEncodingType = com.refinitiv.eta.codec.DataTypes.ENUM;
+		}
+		String value="";
+		int ret;
+		if (CodecReturnCodes.SUCCESS != (ret = ((com.refinitiv.eta.codec.Enum)_entryData).value(value)) ) {
+			String errText = errorString().append("Attempt to specify invalid enum. Passed in value is='" )
+					.append( value ).append( "." ).toString();
+			throw ommIUExcept().message(errText, ret);
+		}
+		return this;
+	}
 	@Override
 	public FieldEntry enumValue(int fieldId, int value)
 	{

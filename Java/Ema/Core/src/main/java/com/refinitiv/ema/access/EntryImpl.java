@@ -706,7 +706,7 @@ abstract class EntryImpl extends VaNode
 		{
 			cacheEntryData = (Time)_entryData;
 		}
-		
+
 		if (CodecReturnCodes.SUCCESS != (cacheEntryData).hour(hour) ||
 				CodecReturnCodes.SUCCESS != (cacheEntryData).minute(minute) || 
 				CodecReturnCodes.SUCCESS != (cacheEntryData).second(second) || 

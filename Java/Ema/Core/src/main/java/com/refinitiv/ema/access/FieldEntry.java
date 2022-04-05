@@ -766,7 +766,7 @@ public interface FieldEntry
 	 * @return reference to this object
 	 */
 	public FieldEntry intValue(int fieldId, long value);
-
+	public FieldEntry intValueBlank(int fieldId);
 	/**
 	 * Adds a specific simple type of OMM data to the FieldEntry.
 	 * 
@@ -806,7 +806,8 @@ public interface FieldEntry
 	 * @return reference to this object
 	 */
 	public FieldEntry real(int fieldId, long mantissa, int magnitudeType);
-
+	public FieldEntry real(int fieldId, String val);
+	public FieldEntry realBlank(int fieldId);
 	/**
 	 * Adds a specific simple type of OMM data to the FieldEntry.
 	 * Default magnitudeType is {@link com.refinitiv.ema.access.OmmReal.MagnitudeType#EXPONENT_0}
@@ -877,7 +878,7 @@ public interface FieldEntry
 	 * @return reference to this object
 	 */
 	public FieldEntry date(int fieldId, int year, int month, int day);
-
+	public FieldEntry date(int fieldId, String date);
 	/**
 	 * Adds a specific simple type of OMM data to the FieldEntry.
 	 * Defaults: second=0, millisecond=0, microsecond=0, nanosecond=0
@@ -910,7 +911,7 @@ public interface FieldEntry
 	 * @return reference to this object
 	 */
 	public FieldEntry time(int fieldId, int hour, int minute, int second);
-		
+	public FieldEntry time(int fieldId, String time);
 	/**
 	 * Adds a specific simple type of OMM data to the FieldEntry.
 	 * Defaults: microsecond=0, nanosecond=0
@@ -1209,7 +1210,7 @@ public interface FieldEntry
 	 * @return reference to this object
 	 */
 	public FieldEntry enumValue(int fieldId, int value);
-
+	public FieldEntry enumBlank(int fieldId);
 	/**
 	 * Adds a specific simple type of OMM data to the FieldEntry.
 	 * 
