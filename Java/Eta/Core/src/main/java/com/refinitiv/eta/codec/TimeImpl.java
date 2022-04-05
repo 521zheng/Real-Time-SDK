@@ -56,6 +56,8 @@ class TimeImpl implements Time
     @Override
     public boolean isBlank()
     {
+        if (_hour == BLANK_HOUR && _minute == BLANK_MINUTE && _second==BLANK_SECOND) //changed by Johnson 2022-03-31
+            return true;
         return (_hour == BLANK_HOUR && _minute == BLANK_MINUTE && _second == BLANK_SECOND && 
                 _millisecond == BLANK_MILLI  && _microsecond == BLANK_MICRO_NANO && _nanosecond == BLANK_MICRO_NANO) ? true : false;
     }
@@ -84,6 +86,7 @@ class TimeImpl implements Time
 
         if (_nanosecond != BLANK_MICRO_NANO && (_nanosecond < 0 || _nanosecond > 999))
             return false;
+
 
         if (_nanosecond == BLANK_MICRO_NANO)
         {
@@ -644,14 +647,16 @@ class TimeImpl implements Time
         int i;
 
         if (data == null || data.isEmpty()) {
-            this._hour = 255;
-            this._minute = 255;
-            this._second = 255;
-            this._millisecond = 65535;
-            this._microsecond = 2047;
-            this._nanosecond = 2047;
+            // this._hour = 255;
+            // this._minute = 255;
+            //this._second = 255;
+            // this._millisecond = 65535;
+            // this._microsecond = 2047;
+            // this._nanosecond = 2047;
+            blank(); //change by Johnson 2022-04-04
 
-            return CodecReturnCodes.BLANK_DATA;
+           // return CodecReturnCodes.BLANK_DATA;
+            return CodecReturnCodes.SUCCESS;//
         }
 
         position = 0;
@@ -1036,9 +1041,13 @@ class TimeImpl implements Time
         _hour = BLANK_HOUR;
         _minute = BLANK_MINUTE;
         _second = BLANK_SECOND;
-        _millisecond = BLANK_MILLI;
-        _microsecond = BLANK_MICRO_NANO;
-        _nanosecond = BLANK_MICRO_NANO;
+        _millisecond = 0;
+        _microsecond = 0;
+        _nanosecond = 0;
+        //_millisecond = BLANK_MILLI;
+        //_microsecond = BLANK_MICRO_NANO;
+        //_nanosecond = BLANK_MICRO_NANO;
+
     }
 
     @Override

@@ -88,7 +88,8 @@ class EnumImpl implements Enum
         }
         else
         {
-            return CodecReturnCodes.INVALID_ARGUMENT;
+            //return Encoders.PrimitiveEncoder.encodeEnum((EncodeIteratorImpl)iter, this);
+           return CodecReturnCodes.INVALID_ARGUMENT;
         }
     }
 	

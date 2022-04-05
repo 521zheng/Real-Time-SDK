@@ -1341,7 +1341,10 @@ class Encoders
         {
             assert (iter != null);
             assert (data != null);
-
+            if (data.isBlank()){
+                putLenSpecBlank(iter);
+                return CodecReturnCodes.SUCCESS;
+            }
             int ret = iter._writer.writeUInt16ls(data.toInt());
             if (ret != CodecReturnCodes.SUCCESS)
                 return ret;
@@ -1354,7 +1357,10 @@ class Encoders
         {
             assert (iter != null);
             assert (data != null);
-
+            if (data.isBlank()){
+                putLenSpecBlank(iter);
+                return CodecReturnCodes.SUCCESS;
+            }
             int ret = iter._writer.writeUInt16lsWithLength(data.toInt());
             if (ret != CodecReturnCodes.SUCCESS)
                 return ret;

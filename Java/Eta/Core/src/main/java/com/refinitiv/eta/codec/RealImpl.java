@@ -450,11 +450,18 @@ class RealImpl implements Real
             // number must be no bigger than max string length
             if (trimmedVal.length() <= maxStringLen)
             {
+                if (!isNeg && longValue == 0 ){ //add by johnson for 0 blank
+                    blank();
+                    _stringVal = trimmedVal;
+
+                    return CodecReturnCodes.SUCCESS;
+                }
+
                 ret = value(!isNeg ? longValue : -longValue, RealHints.EXPONENT0);
-                
+
                 if(ret != CodecReturnCodes.SUCCESS)
                 	return ret;
-                
+
                 _isBlank = false;
             }
             else
@@ -511,7 +518,12 @@ class RealImpl implements Real
         			}
         		}
         	}
+            if (!isNeg && longValue == 0 ){ //add by johnson for 0 blank
+                blank();
+                _stringVal = trimmedVal;
 
+                return CodecReturnCodes.SUCCESS;
+            }
             ret = value(!isNeg ? longValue: -longValue, RealHints.EXPONENT0 - exponent);
             
             if(ret != CodecReturnCodes.SUCCESS)

@@ -449,7 +449,8 @@ class DateImpl implements Date
                         ret = month(translateMonth(strMon));
                         if (ret != CodecReturnCodes.SUCCESS)
                             return ret;
-                        ret = year(c + 1900);
+                        //ret = year(c + 1900);  //modified by Johnson 2022-04-04
+                        ret = year(c + 2000);
                         if (ret != CodecReturnCodes.SUCCESS)
                             return ret;
                     }
