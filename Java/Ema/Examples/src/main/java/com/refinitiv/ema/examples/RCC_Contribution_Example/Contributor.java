@@ -53,7 +53,7 @@ class AppClient implements OmmConsumerClient	{
 			// 3. Login accepted, app can post data now
 			System.out.println("Login accepted, starting posting...");
 			
-			_postStreamID = refreshMsg.streamId();
+			_postStreamID = refreshMsg.streamId();/*post stream id*/
 			/*will be used in send post message*/
 			System.out.println("Login accepted, postStreamID:=" + _postStreamID);
 			//postMessage();
@@ -75,12 +75,12 @@ class AppClient implements OmmConsumerClient	{
 			ElementList elementList = EmaFactory.createElementList();
 			elementList.add(EmaFactory.createElementEntry().ascii("Password", "3Fvx9KYig84m0F9w51QNXiiT14wlB7"));
 			ReqMsg rMsg = EmaFactory.createReqMsg()
-				.domainType(EmaRdm.MMT_LOGIN)
+				.domainType(EmaRdm.MMT_LOGIN) //login domain
 				.name("GE-A-00740437-3-6545")
 				.attrib(elementList)
 				// .privateStream(true)
 				.serviceId(statusMsg.serviceId())
-				.streamId(statusMsg.streamId());
+				.streamId(statusMsg.streamId()); //stream id is a login domain
 			
 			System.out.println("Sending client login request...");
 			// get events from login substream	
@@ -281,7 +281,7 @@ class AppClient implements OmmConsumerClient	{
 		_ommConsumer.submit(EmaFactory.createPostMsg()
 			.streamId(_postStreamID)
 			.postId(_postID++)
-			.domainType(EmaRdm.MMT_MARKET_PRICE)
+			.domainType(EmaRdm.MMT_MARKET_PRICE)  //data domain
 			.solicitAck(true)
 			.complete(true)
 			.payload(nestedUpdateMsg), _subStreamHandle);

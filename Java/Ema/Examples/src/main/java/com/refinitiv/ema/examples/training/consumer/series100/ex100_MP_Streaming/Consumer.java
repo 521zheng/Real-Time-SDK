@@ -56,7 +56,7 @@ public class Consumer
 
 			consumer  = EmaFactory.createOmmConsumer(config.host("10.167.170.163:14002").username("rmds"));
 			
-			ReqMsg reqMsg = EmaFactory.createReqMsg();
+			ReqMsg reqMsg = EmaFactory.createReqMsg(); //change by johnson
 			
 			//consumer.registerClient(reqMsg.serviceName("DIRECT_FEED").name("IBM.N"), appClient);
 			consumer.registerClient(reqMsg.serviceName("ELEKTRON_DD").name("IBM.N"), appClient);

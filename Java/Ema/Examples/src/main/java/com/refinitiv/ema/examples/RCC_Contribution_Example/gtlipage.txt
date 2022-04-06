@@ -1,0 +1,17 @@
+[BJWMRTSP0T10]
+Mexican Nuevo Peso       MXN       20.0740   20.0904   20.08220
+Norwegian Krone          NOK          NaN        NaN        NaN
+New Zealand Dollar       NZD        1.6867    1.6887    1.68770 
+Polish Zloty             PLN        4.2738    4.2759    4.27485 
+                                             
+New Romanian Leu         RON        4.7765    4.7780    4.77725 
+Russian Rouble           RUB       68.8130   69.1561   68.98455
+Swedish Krona            SEK       10.5660   10.5690   10.56750
+Singapore Dollar         SGD        1.5025    1.5036    1.50305
+Thai Baht                THB       31.1755   31.1895   31.18250
+                                              
+Thai Baht Offshore       TOF          NaN        NaN        NaN
+New Turkish Lira         TRY        6.5505    6.5552    6.55285 
+South African Rand       ZAR       16.1970   16.2166   16.20680
+
+[/BJWMRTSP0T10]
